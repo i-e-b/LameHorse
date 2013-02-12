@@ -9,8 +9,8 @@ namespace FileTranscoder
         public static void WavToMp3(string sourceWavPath, string targetMp3Path, int bitRateKbps)
         {
             
-            using (var @in = new FileStream(@".\res\dtmf.wav", FileMode.Open))
-            using (var @out = new FileStream(@".\res\dtmf_out.mp3", FileMode.Create))
+            using (var @in = new FileStream(sourceWavPath, FileMode.Open))
+            using (var @out = new FileStream(targetMp3Path, FileMode.Create))
             {
                 var reader = new WavFromFile(@in);
                 var writer = new Mp3Writer(@out, bitRateKbps, reader);
