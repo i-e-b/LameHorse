@@ -3,8 +3,9 @@ using System.IO;
 
 namespace WavReader
 {
-	public class WavReader: IReadPCM, IPCMAudio
+	public class WavFromFile: IReadPCM, IPCMAudio
 	{
+		readonly FileStream _file;
 		readonly BitSplitter _splitter;
 
 		static readonly byte[] RiffHeader = new byte[] { 0x52, 0x49, 0x46, 0x46 };
@@ -13,8 +14,9 @@ namespace WavReader
 		static readonly byte[] AudioFormat = new byte[] { 0x01, 0x00 };
 		static readonly byte[] SubchunkId = new byte[] { 0x64, 0x61, 0x74, 0x61 };
 
-		public WavReader(FileStream file)
+		public WavFromFile(FileStream file)
 		{
+			_file = file;
 			_splitter = new BitSplitter(file);
 			ReadHeaders();
 		}
@@ -46,9 +48,24 @@ namespace WavReader
 			if ((len1 - 42) != len2) throw new Exception("Header length or file length wrong");
 		}
 
-		public int Read(int[] leftSamples, int[] rightSamples)
+		public int Read(short[] leftSamples, short[] rightSamples)
 		{
-			return 0;
+            var chanBits = BitDepth * Channels;
+            var fileBits = (_file.Length - _file.Position) * 8;
+            var fileSamples = fileBits / chanBits;
+            var bufLen = Math.Min(leftSamples.Length, rightSamples.Length);
+            var max = Math.Min(fileSamples, bufLen);
+
+			for (int i = 0; i < max; i++)
+			{
+				unchecked // TODO: need a signed integer method!
+				{
+					leftSamples[i] = (short)_splitter.GetIntegerIntel(BitDepth);
+					rightSamples[i] = (short)_splitter.GetIntegerIntel(BitDepth);
+				}
+			}
+
+			return (int)max;
 		}
 
 		public int Channels { get; private set; }

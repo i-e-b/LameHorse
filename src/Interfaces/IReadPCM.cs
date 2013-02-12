@@ -2,6 +2,6 @@
 {
 	public interface IReadPCM
 	{
-        int Read(int[] leftSamples, int[] rightSamples);
+        int Read(short[] leftSamples, short[] rightSamples);
 	}
 }

@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FlacToWavTests.cs" />
     <Compile Include="SimpleIntegrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -53,12 +54,28 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlacDecode\FlacDecode.csproj">
+      <Project>{7DF305A2-88EE-4B12-9F79-4207B3874DC4}</Project>
+      <Name>FlacDecode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{5C8235B6-DA81-40CC-8BC4-77FE3C932E7D}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LameHorse\LameHorse.csproj">
+      <Project>{C79B7B9D-A453-4DBF-821E-E7B4AE8E9682}</Project>
+      <Name>LameHorse</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WavReader\WavReader.csproj">
       <Project>{D1FA7AE6-285A-4FA6-AD90-F73FC05CC251}</Project>
       <Name>WavReader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\lib\libmp3lame.dll">
+      <Link>libmp3lame.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="res\dtmf.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

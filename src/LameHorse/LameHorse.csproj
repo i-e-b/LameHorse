@@ -40,9 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LibMp3LameException.cs" />
-    <Compile Include="LibMp3Lame.cs" />
+    <Compile Include="IWritePCM.cs" />
+    <Compile Include="LAME\LibMp3LameException.cs" />
+    <Compile Include="LAME\LibMp3Lame.cs" />
+    <Compile Include="Mp3Writer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{5C8235B6-DA81-40CC-8BC4-77FE3C932E7D}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

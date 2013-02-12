@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D1FA7AE6-285A-4FA6-AD90-F73FC05CC251}</ProjectGuid>
+    <ProjectGuid>{7DF305A2-88EE-4B12-9F79-4207B3874DC4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WavReader</RootNamespace>
-    <AssemblyName>WavReader</AssemblyName>
+    <RootNamespace>FlacDecode</RootNamespace>
+    <AssemblyName>FlacDecode</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,29 +29,34 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitTwiddling\ByteList.cs" />
-    <Compile Include="BitTwiddling\FsBytes.cs" />
-    <Compile Include="BitTwiddling\IByteArray.cs" />
-    <Compile Include="BitTwiddling\BitSplitter.cs" />
+    <Compile Include="Audio\AudioBuffer.cs" />
+    <Compile Include="Audio\AudioPCMConfig.cs" />
+    <Compile Include="Audio\AudioSamples.cs" />
+    <Compile Include="Bitwise\BitReader.cs" />
+    <Compile Include="Audio\ChannelMode.cs" />
+    <Compile Include="Bitwise\CRC16.cs" />
+    <Compile Include="Bitwise\CRC8.cs" />
+    <Compile Include="Decode.cs" />
+    <Compile Include="Flac\FlacFrame.cs" />
+    <Compile Include="Flac\FlacSubframe.cs" />
+    <Compile Include="Flac\FlacSubframeInfo.cs" />
+    <Compile Include="Flac\Flake.cs" />
+    <Compile Include="Flac\FlakeReader.cs" />
+    <Compile Include="MathCoding\LinearPredictiveCoding.cs" />
+    <Compile Include="MathCoding\LpcContext.cs" />
+    <Compile Include="Flac\MetadataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WavFromFile.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
-      <Project>{5C8235B6-DA81-40CC-8BC4-77FE3C932E7D}</Project>
-      <Name>Interfaces</Name>
-    </ProjectReference>
+    <Compile Include="MathCoding\RiceContext.cs" />
+    <Compile Include="Flac\SeekPoint.cs" />
+    <Compile Include="Flac\SubframeType.cs" />
+    <Compile Include="Wav\WavWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
