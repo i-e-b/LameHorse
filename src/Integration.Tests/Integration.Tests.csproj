@@ -44,7 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FlacToWavTests.cs" />
-    <Compile Include="SimpleIntegrationTests.cs" />
+    <Compile Include="RoundTripTest.cs" />
+    <Compile Include="WavToMp3Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FileTranscoder\FileTranscoder.csproj">
+      <Project>{769B4B59-85A2-4450-BEBC-A72FE609C9D6}</Project>
+      <Name>FileTranscoder</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlacDecode\FlacDecode.csproj">
       <Project>{7DF305A2-88EE-4B12-9F79-4207B3874DC4}</Project>
       <Name>FlacDecode</Name>

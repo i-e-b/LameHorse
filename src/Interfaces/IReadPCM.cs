@@ -1,4 +1,4 @@
-﻿namespace WavReader
+﻿namespace Interfaces
 {
 	public interface IReadPCM
 	{

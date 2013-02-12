@@ -1,4 +1,4 @@
-﻿namespace LameHorse
+﻿namespace Interfaces
 {
 	public interface IWritePCM
 	{

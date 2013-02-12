@@ -1,7 +1,8 @@
 using System;
 using System.IO;
 using System.Threading;
-using WavReader;
+using Interfaces;
+using LameHorse.LAME;
 
 namespace LameHorse
 {

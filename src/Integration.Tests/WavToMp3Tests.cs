@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Interfaces;
 using LameHorse;
 using NUnit.Framework;
 using WavReader;
@@ -6,9 +7,8 @@ using WavReader;
 namespace Integration.Tests
 {
     [TestFixture]
-    public class SimpleIntegrationTests
+    public class WavToMp3Tests
     {
-
         [Test]
         public void can_get_wav_headers ()
         {

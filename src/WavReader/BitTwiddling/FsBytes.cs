@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace WavReader
+namespace WavReader.BitTwiddling
 {
 	public class FsBytes : IByteArray
 	{

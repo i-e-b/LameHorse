@@ -1,6 +1,6 @@
 using System;
 
-namespace LameHorse
+namespace LameHorse.LAME
 {
     /// <remarks>
     /// Originally from http://sixfeetsix.blogspot.co.uk/2012/04/managed-code-to-interact-with.html

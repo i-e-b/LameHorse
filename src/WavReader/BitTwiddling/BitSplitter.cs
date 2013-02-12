@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace WavReader
+namespace WavReader.BitTwiddling
 {
 	/// <summary>
 	/// Splits a byte array into values, based on a series of bit lengths

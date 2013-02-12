@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using Interfaces;
+using WavReader.BitTwiddling;
 
 namespace WavReader
 {

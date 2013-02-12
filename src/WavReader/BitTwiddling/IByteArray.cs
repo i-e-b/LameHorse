@@ -1,4 +1,4 @@
-namespace WavReader
+namespace WavReader.BitTwiddling
 {
 	public interface IByteArray
 	{
