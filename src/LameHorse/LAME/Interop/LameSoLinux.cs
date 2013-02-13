@@ -12,11 +12,47 @@ namespace LameHorse.LAME.Interop
         /// </summary>
 		public static void Setup()
 		{
-			var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+			var path = Environment.GetEnvironmentVariable("PATH");
 
-			if (!string.IsNullOrEmpty(path)) path += ";";
-			path += Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            path += ";";			path += Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);            path += ";";			path += Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);			Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);		}
+	        if (!string.IsNullOrEmpty(path)) path += ";";
+            int added = 0;
+			try
+			{
+				path += Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+				path += ";";
+				added++;
+			}
+			catch
+			{
+				Console.WriteLine("Adding Executing assembly path failed");
+			}
+
+			try
+			{
+				path += Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
+				path += ";";
+			}
+			catch
+			{
+				Console.WriteLine("Adding Calling assembly path failed");
+			}
+
+			try
+			{
+				path += Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+			}
+			catch
+			{
+				Console.WriteLine("Adding Executing assembly path failed");
+			}
+			Console.WriteLine("Added " + added + " paths");            try
+            {
+	            Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
+            } catch
+            {
+	            Console.WriteLine("Failed to set PATH variable: LAME library may not be found");
+            }
+		}
 
 		// const char* CDECL get_lame_version(void);
 		[DllImport("libmp3lame.so.0.0.0", CallingConvention = CallingConvention.Cdecl)]
