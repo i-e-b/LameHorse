@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.IO;
 
-namespace LameHorse.LAME
+namespace LameHorse.LAME.Interop
 {
 	public class LameSoLinux
 	{

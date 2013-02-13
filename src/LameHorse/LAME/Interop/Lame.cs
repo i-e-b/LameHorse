@@ -1,6 +1,6 @@
 using System;
 
-namespace LameHorse.LAME
+namespace LameHorse.LAME.Interop
 {
 	public class Lame
 	{

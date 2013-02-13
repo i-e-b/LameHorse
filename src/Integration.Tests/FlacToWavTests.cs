@@ -11,8 +11,8 @@ namespace Integration.Tests
         [Test]
         public void can_transcode_to_wav ()
         {
-			string @in = @".\res\dtmf.flac";
-            string @out = @".\res\dtmf_out.wav";
+			string @in = @"./res/dtmf.flac";
+            string @out = @"./res/dtmf_out.wav";
 			
 			File.Delete(@out);
 

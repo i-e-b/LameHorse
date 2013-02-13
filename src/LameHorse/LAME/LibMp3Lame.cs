@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using LameHorse.LAME.Interop;
 
 namespace LameHorse.LAME
 {
