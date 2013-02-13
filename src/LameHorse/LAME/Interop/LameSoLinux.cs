@@ -50,13 +50,13 @@ namespace LameHorse.LAME.Interop
 				var oldPath = Environment.GetEnvironmentVariable("PATH");
 				if (!string.IsNullOrEmpty(oldPath)) oldPath += ";";
                 oldPath += path;
-	            Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
+	            Environment.SetEnvironmentVariable("PATH", oldPath, EnvironmentVariableTarget.Process);
 
                 
-				var oldLD = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH ");
-				if (!string.IsNullOrEmpty(oldLD)) oldPath += ";";
+				var oldLD = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
+				if (!string.IsNullOrEmpty(oldLD)) oldLD += ";";
                 oldLD += path;
-	            Environment.SetEnvironmentVariable("LD_LIBRARY_PATH ", oldLD, EnvironmentVariableTarget.Process);
+	            Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", oldLD, EnvironmentVariableTarget.Process);
             } catch
             {
 	            Console.WriteLine("Failed to set PATH variable: LAME library may not be found");
