@@ -1,6 +1,7 @@
 ﻿using System;
+using FlacDecode;
 
-namespace FlacDecode
+namespace FileTranscoder
 {
 	public static class Decode
 	{

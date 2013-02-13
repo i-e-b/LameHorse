@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using FileTranscoder;
 using FlacDecode;
 using NUnit.Framework;
 
