@@ -12,9 +12,7 @@ namespace LameHorse.LAME.Interop
         /// </summary>
 		public static void Setup()
 		{
-			var path = Environment.GetEnvironmentVariable("PATH");
-
-	        if (!string.IsNullOrEmpty(path)) path += ";";
+			var path = "";
             path += "/usr/lib"; // for debian.
 
             int added = 1;
@@ -49,7 +47,16 @@ namespace LameHorse.LAME.Interop
 			}
 			Console.WriteLine("Added " + added + " paths");            try
             {
+				var oldPath = Environment.GetEnvironmentVariable("PATH");
+				if (!string.IsNullOrEmpty(oldPath)) oldPath += ";";
+                oldPath += path;
 	            Environment.SetEnvironmentVariable("PATH", path, EnvironmentVariableTarget.Process);
+
+                
+				var oldLD = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH ");
+				if (!string.IsNullOrEmpty(oldLD)) oldPath += ";";
+                oldLD += path;
+	            Environment.SetEnvironmentVariable("LD_LIBRARY_PATH ", oldLD, EnvironmentVariableTarget.Process);
             } catch
             {
 	            Console.WriteLine("Failed to set PATH variable: LAME library may not be found");
