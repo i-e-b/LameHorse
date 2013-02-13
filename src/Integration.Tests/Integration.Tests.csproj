@@ -49,6 +49,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\lib\libmp3lame.so.0">
+      <Link>libmp3lame.so.0</Link>
+    </None>
+    <None Include="..\..\lib\libmp3lame.so.0.0.0">
+      <Link>libmp3lame.so.0.0.0</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="res\dtmf.flac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
