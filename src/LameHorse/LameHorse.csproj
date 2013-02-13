@@ -36,7 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IWritePCM.cs" />
-    <Compile Include="LAME\LameDll.cs" />
+    <Compile Include="LAME\Interop\LameDllWindows.cs" />
+    <Compile Include="LAME\Interop\LameSoLinux.cs" />
+    <Compile Include="LAME\Interop\Lame.cs" />
     <Compile Include="LAME\LibMp3LameException.cs" />
     <Compile Include="LAME\LibMp3Lame.cs" />
     <Compile Include="Mp3Writer.cs" />

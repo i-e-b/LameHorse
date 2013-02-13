@@ -20,24 +20,16 @@ namespace LameHorse.LAME
 		}
 
 		public delegate void LameInfoCallback(string format, params object[] args);
-
-
-		#region Private
-
 		IntPtr lame_global_flags;
-
-		#endregion
-
-		#region Public
 
 		public static string GetLameVersion()
 		{
-			return Marshal.PtrToStringAnsi(LameDll.get_lame_version());
+			return Marshal.PtrToStringAnsi(Lame.get_lame_version());
 		}
 
 		public void LameInit()
 		{
-			IntPtr ret = LameDll.lame_init();
+			IntPtr ret = Lame.lame_init();
 			if (ret == default(IntPtr))
 				throw new LibMp3LameException(
 					"Unable to create the lame struct possibly due to no memory being left");
@@ -46,56 +38,56 @@ namespace LameHorse.LAME
 
 		public void LameSetErrorFunction(LameInfoCallback callback)
 		{
-			int ret = LameDll.lame_set_errorf(lame_global_flags, callback);
+			int ret = Lame.lame_set_errorf(lame_global_flags, callback);
 			if (ret < 0)
 				throw new LibMp3LameException("lame_set_errorf returned an error");
 		}
 
 		public void LameSetDebugFunction(LameInfoCallback callback)
 		{
-			if (LameDll.lame_set_debugf(lame_global_flags, callback) < 0)
+			if (Lame.lame_set_debugf(lame_global_flags, callback) < 0)
 				throw new LibMp3LameException("lame_set_errorf returned an error");
 		}
 
 		public void LameSetMessageFunction(LameInfoCallback callback)
 		{
-			if (LameDll.lame_set_msgf(lame_global_flags, callback) < 0)
+			if (Lame.lame_set_msgf(lame_global_flags, callback) < 0)
 				throw new LibMp3LameException("lame_set_errorf returned an error");
 		}
 
 		public void LameSetBRate(int brate)
 		{
-			if (LameDll.lame_set_brate(lame_global_flags, brate) != 0)
+			if (Lame.lame_set_brate(lame_global_flags, brate) != 0)
 				throw new LibMp3LameException("lame_set_brate returned an error");
 		}
 
 		public void LameSetMode(MPEG_mode mode)
 		{
-			if (LameDll.lame_set_mode(lame_global_flags, mode) != 0)
+			if (Lame.lame_set_mode(lame_global_flags, mode) != 0)
 				throw new LibMp3LameException("lame_set_mode returned an error");
 		}
 
 		public void LameSetInSampleRate(int rateInHz)
 		{
-			if (LameDll.lame_set_in_samplerate(lame_global_flags, rateInHz) != 0)
+			if (Lame.lame_set_in_samplerate(lame_global_flags, rateInHz) != 0)
 				throw new LibMp3LameException("lame_set_in_samplerate returned an error");
 		}
 
 		public void LameSetNumChannels(int numChannels)
 		{
-			if (LameDll.lame_set_num_channels(lame_global_flags, numChannels) != 0)
+			if (Lame.lame_set_num_channels(lame_global_flags, numChannels) != 0)
 				throw new LibMp3LameException("lame_set_num_channels returned an error");
 		}
 
 		public void LameSetQuality(int quality)
 		{
-			if (LameDll.lame_set_quality(lame_global_flags, quality) != 0)
+			if (Lame.lame_set_quality(lame_global_flags, quality) != 0)
 				throw new LibMp3LameException("lame_set_quality returned an error");
 		}
 
 		public void LameInitParams()
 		{
-			if (LameDll.lame_init_params(lame_global_flags) < 0)
+			if (Lame.lame_init_params(lame_global_flags) < 0)
 				throw new LibMp3LameException("lame_init_params returned an error");
 		}
 
@@ -104,7 +96,7 @@ namespace LameHorse.LAME
 		{
 			GCHandle pinnedArray = GCHandle.Alloc(mp3Buffer, GCHandleType.Pinned);
 			IntPtr p = pinnedArray.AddrOfPinnedObject();
-			int ret = LameDll.lame_encode_buffer(lame_global_flags, bufferL, bufferR,
+			int ret = Lame.lame_encode_buffer(lame_global_flags, bufferL, bufferR,
 				nsamples, p, mp3Buffer.Length);
 			pinnedArray.Free();
 			if (ret < 0)
@@ -116,7 +108,7 @@ namespace LameHorse.LAME
 		{
 			GCHandle pinnedArray = GCHandle.Alloc(mp3Buffer, GCHandleType.Pinned);
 			IntPtr p = pinnedArray.AddrOfPinnedObject();
-			int ret = LameDll.lame_encode_flush(lame_global_flags, p, mp3Buffer.Length);
+			int ret = Lame.lame_encode_flush(lame_global_flags, p, mp3Buffer.Length);
 			pinnedArray.Free();
 			if (ret < 0)
 				throw new LibMp3LameException("lame_encode_flush returned an error (" + ret + ")");
@@ -127,7 +119,7 @@ namespace LameHorse.LAME
 		{
 			GCHandle pinnedArray = GCHandle.Alloc(buffer, GCHandleType.Pinned);
 			IntPtr p = pinnedArray.AddrOfPinnedObject();
-			int ret = LameDll.lame_get_lametag_frame(lame_global_flags, p, buffer.Length);
+			int ret = Lame.lame_get_lametag_frame(lame_global_flags, p, buffer.Length);
 			pinnedArray.Free();
 			if (ret < 0)
 				throw new LibMp3LameException("lame_encode_flush returned an error (" + ret + ")");
@@ -140,7 +132,7 @@ namespace LameHorse.LAME
 
 		public void LameClose()
 		{
-			LameDll.lame_close(lame_global_flags);
+			Lame.lame_close(lame_global_flags);
 			lame_global_flags = default(IntPtr);
 		}
 
@@ -149,7 +141,5 @@ namespace LameHorse.LAME
 			if (lame_global_flags != default(IntPtr))
 				LameClose();
 		}
-
-		#endregion
 	}
 }
