@@ -1,10 +1,18 @@
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace LameHorse.LAME
 {
 	public class LameDll
 	{
+		static LameDll()
+		{
+            // For Linux:
+			var path = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
+			path += ";" + Assembly.GetExecutingAssembly().Location;
+			Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", path, EnvironmentVariableTarget.Process);		}
+
 		// const char* CDECL get_lame_version(void);
 		[DllImport("libmp3lame.dll", CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr get_lame_version();
