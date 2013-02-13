@@ -15,7 +15,9 @@ namespace LameHorse.LAME.Interop
 			var path = Environment.GetEnvironmentVariable("PATH");
 
 	        if (!string.IsNullOrEmpty(path)) path += ";";
-            int added = 0;
+            path += "/usr/lib"; // for debian.
+
+            int added = 1;
 			try
 			{
 				path += Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
