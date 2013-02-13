@@ -1,14 +1,26 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace LameHorse.LAME.Interop
 {
 	public class Lame
 	{
-		static readonly bool posix;
-		static Lame()
+		static bool posix;
+
+		public static void Init()
 		{
 			var p = (int)Environment.OSVersion.Platform;
 			posix = (p == 4) || (p == 6) || (p == 128);
+
+			if (posix)
+			{
+				LameSoLinux.Setup();
+				Console.WriteLine("Linux binary LAME: " + Marshal.PtrToStringAnsi(LameSoLinux.get_lame_version()));
+			}
+			else
+			{
+				Console.WriteLine("Windows binary LAME: " + Marshal.PtrToStringAnsi(LameDllWindows.get_lame_version()));
+			}
 		}
 
 		public static IntPtr get_lame_version()

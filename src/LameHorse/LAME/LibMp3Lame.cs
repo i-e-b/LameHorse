@@ -20,6 +20,11 @@ namespace LameHorse.LAME
 			MAX_INDICATOR   /* Don't use this! It's used for sanity checks. */
 		}
 
+		public LibMp3Lame()
+		{
+			Lame.Init();
+		}
+
 		public delegate void LameInfoCallback(string format, params object[] args);
 		IntPtr lame_global_flags;
 

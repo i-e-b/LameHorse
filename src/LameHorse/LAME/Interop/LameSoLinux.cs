@@ -7,7 +7,10 @@ namespace LameHorse.LAME.Interop
 {
 	public class LameSoLinux
 	{
-		static LameSoLinux()
+        /// <summary>
+        /// You MUST call this if the shared lib is not in the normal execution path
+        /// </summary>
+		public static void Setup()
 		{
 			var path = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
 
