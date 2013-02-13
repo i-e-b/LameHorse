@@ -11,9 +11,9 @@ namespace Integration.Tests
         [Test]
         public void can_round_trip_from_flac_to_mp3 ()
         {
-			string @in = @".\res\dtmf.flac";
-            string @mezz = @".\res\dtmf_out.wav";
-            string @out = @".\res\dtmf_out.mp3";
+			string @in = @"./res/dtmf.flac";
+            string @mezz = @"./res/dtmf_out.wav";
+            string @out = @"./res/dtmf_out.mp3";
 			
 			File.Delete(@mezz);
 			File.Delete(@out);

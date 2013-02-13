@@ -1,0 +1,50 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/LameHorse/LAME/LameDll.cs">
+    <Files>
+      <File FileName="src/Integration.Tests/FlacToWavTests.cs" Line="1" Column="1" />
+      <File FileName="src/Integration.Tests/RoundTripTest.cs" Line="5" Column="1" />
+      <File FileName="src/Integration.Tests/App.config" Line="5" Column="1" />
+      <File FileName="src/LameHorse/LAME/LameDll.cs" Line="7" Column="3" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Implementation" expanded="True">
+            <Node name="LameHorse" expanded="True">
+              <Node name="LAME" expanded="True">
+                <Node name="LameDll.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+          <Node name="Tests" expanded="True">
+            <Node name="Integration.Tests" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True">
+          <Node name="Tests" expanded="True">
+            <Node name="Integration.Tests" expanded="True">
+              <Node name="Integration" expanded="True">
+                <Node name="Tests" expanded="True">
+                  <Node name="RoundTripTest" expanded="True" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
