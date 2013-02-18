@@ -15,12 +15,10 @@ namespace LameHorse.LAME.Interop
 			var path = "";
             path += "/usr/lib"; // for debian.
 
-            int added = 1;
 			try
 			{
 				path += Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 				path += ";";
-				added++;
 			}
 			catch
 			{
@@ -45,7 +43,7 @@ namespace LameHorse.LAME.Interop
 			{
 				Console.WriteLine("Adding Executing assembly path failed");
 			}
-			Console.WriteLine("Added " + added + " paths");            try
+            try
             {
 				var oldPath = Environment.GetEnvironmentVariable("PATH");
 				if (!string.IsNullOrEmpty(oldPath)) oldPath += ";";

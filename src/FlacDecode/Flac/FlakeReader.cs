@@ -725,8 +725,14 @@ namespace FlacDecode
 		{
 			var lio = Interlocked.Exchange(ref _IO, null);
 			if (lio == null) return;
-			lio.Flush();
-			lio.Close();
+			try
+			{
+				lio.Flush();
+				lio.Close();
+			}
+			catch (Exception)
+			{
+			}
 			lio.Dispose();
 		}
 	}

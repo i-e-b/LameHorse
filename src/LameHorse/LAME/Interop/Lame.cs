@@ -15,11 +15,6 @@ namespace LameHorse.LAME.Interop
 			if (posix)
 			{
 				LameSoLinux.Setup();
-				Console.WriteLine("Linux binary LAME: " + Marshal.PtrToStringAnsi(LameSoLinux.get_lame_version()));
-			}
-			else
-			{
-				Console.WriteLine("Windows binary LAME: " + Marshal.PtrToStringAnsi(LameDllWindows.get_lame_version()));
 			}
 		}
 
