@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using FlacDecode.Flac;
 
 namespace FlacDecode.LibFlac.Interop
 {
@@ -21,6 +20,10 @@ namespace FlacDecode.LibFlac.Interop
 
 		[DllImport(LibFlac, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FLAC__stream_decoder_delete(IntPtr decoder);
+
+		[DllImport(LibFlac, CallingConvention = CallingConvention.Cdecl)]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		public static extern bool FLAC__stream_decoder_finish(IntPtr decoder);
 
 
 		[DllImport(LibFlac, CallingConvention = CallingConvention.Cdecl)]
@@ -108,16 +111,16 @@ namespace FlacDecode.LibFlac.Interop
 		/// <param name="decoder">The decoder instance calling the callback</param>
 		/// <param name="absoluteByteOffset">A pointer to storage for the current offset from the beginning of the stream</param>
 		/// <param name="clientData">The callee's client data set through FLAC__stream_decoder_init_*()</param>
-		public delegate FlacTellStatus Tell(IntPtr decoder, UInt64 *absoluteByteOffset, IntPtr clientData);
+		public delegate FlacTellStatus Tell(IntPtr decoder, UInt64* absoluteByteOffset, IntPtr clientData);
 
 		/// <summary>
 		/// Called when the decoder has decoded a single audio frame. The decoder will pass the frame metadata as well as an array of pointers (one for each channel) pointing to the decoded audio.
 		/// </summary>
 		/// <param name="decoder">The decoder instance calling the callback.</param>
-		/// <param name="frame">The description of the decoded frame; DON'T RELY ON THIS DATA.</param>
+		/// <param name="frame">The description of the decoded frame</param>
 		/// <param name="buffer">An array of pointers to decoded channels of data. Each pointer will point to an array of signed samples of length frame->header.blocksize. Channels will be ordered according to the FLAC specification</param>
 		/// <param name="clientData">The callee's client data set through FLAC__stream_decoder_init_*().</param>
-		public delegate FlacWriteStatus Write(IntPtr decoder, IntPtr frame, IntPtr buffer, IntPtr clientData);
+		public delegate FlacWriteStatus Write(IntPtr decoder, FrameHeader *frame, Int32** buffer, IntPtr clientData);
 
 		/// <summary>
 		/// called when the decoder has decoded a metadata block. In a valid FLAC file there will always be one STREAMINFO block, followed by zero or more other metadata blocks. These will be supplied by the decoder in the same order as they appear in the stream and always before the first audio frame (i.e. write callback). The metadata block that is passed in must not be modified, and it doesn't live beyond the callback, so you should make a copy of it with FLAC__metadata_object_clone() if you will need it elsewhere. Since metadata blocks can potentially be large, by default the decoder only calls the metadata callback for the STREAMINFO block; you can instruct the decoder to pass or filter other blocks with FLAC__stream_decoder_set_metadata_*() calls.
@@ -136,30 +139,35 @@ namespace FlacDecode.LibFlac.Interop
 			FLAC__STREAM_DECODER_ERROR_STATUS_FRAME_CRC_MISMATCH,
 			FLAC__STREAM_DECODER_ERROR_STATUS_UNPARSEABLE_STREAM
 		}
+
 		public enum FlacTellStatus
 		{
 			FLAC__STREAM_DECODER_TELL_STATUS_OK,
 			FLAC__STREAM_DECODER_TELL_STATUS_ERROR,
 			FLAC__STREAM_DECODER_TELL_STATUS_UNSUPPORTED
 		}
+
 		public enum FlacReadStatus
 		{
 			FLAC__STREAM_DECODER_READ_STATUS_CONTINUE,
 			FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM,
 			FLAC__STREAM_DECODER_READ_STATUS_ABORT
 		}
+
 		public enum FlacSeekStatus
 		{
 			FLAC__STREAM_DECODER_SEEK_STATUS_OK,
 			FLAC__STREAM_DECODER_SEEK_STATUS_ERROR,
 			FLAC__STREAM_DECODER_SEEK_STATUS_UNSUPPORTED
 		}
+
 		public enum FlacLengthStatus
 		{
 			FLAC__STREAM_DECODER_LENGTH_STATUS_OK,
 			FLAC__STREAM_DECODER_LENGTH_STATUS_ERROR,
 			FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED
 		}
+
 		public enum FlacWriteStatus
 		{
 			FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE,
@@ -167,4 +175,22 @@ namespace FlacDecode.LibFlac.Interop
 		}
 	}
 
+	public enum FlacChannelAssignment
+	{
+		FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT = 0,
+		FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE = 1,
+		FLAC__CHANNEL_ASSIGNMENT_RIGHT_SIDE = 2,
+		FLAC__CHANNEL_ASSIGNMENT_MID_SIDE = 3
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct FrameHeader
+	{
+		public UInt32 blockSize;
+		public UInt32 sample_rate;
+		public UInt32 channels;
+		public FlacChannelAssignment channelAssignment;
+		public UInt32 bitsPerSample;
+		// more off the end not needed here
+	}
 }
