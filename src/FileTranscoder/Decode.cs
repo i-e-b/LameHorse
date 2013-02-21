@@ -1,5 +1,6 @@
 ﻿using System;
 using FlacDecode;
+using FlacDecode.LibFlac;
 
 namespace FileTranscoder
 {
@@ -21,8 +22,16 @@ namespace FileTranscoder
 					{
 						wav.WriteSamples(buf.Bytes, 0, buf.ByteLength);
 					}
-                    wav.FlushAndClose();
+					wav.FlushAndClose();
 				}
+			}
+		}
+
+		public static void FlacToWav_ForceLibFlac(string sourceFlac, string targetNewWav)
+		{
+			using (var decoder = new LibFlacDecode())
+			{
+
 			}
 		}
 	}

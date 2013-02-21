@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,6 +49,8 @@
     <Compile Include="Flac\FlacSubframeInfo.cs" />
     <Compile Include="Flac\Flake.cs" />
     <Compile Include="Flac\FlakeReader.cs" />
+    <Compile Include="LibFlac\Interop\LibFlacDllWindows.cs" />
+    <Compile Include="LibFlac\LibFlacDecode.cs" />
     <Compile Include="MathCoding\LinearPredictiveCoding.cs" />
     <Compile Include="MathCoding\LpcContext.cs" />
     <Compile Include="Flac\MetadataType.cs" />
