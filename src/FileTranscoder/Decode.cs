@@ -31,7 +31,7 @@ namespace FileTranscoder
 		{
 			using (var decoder = new LibFlacDecode())
 			{
-
+				decoder.DecodeFlacToWav(sourceFlac, targetNewWav);
 			}
 		}
 	}

@@ -36,6 +36,33 @@ namespace FlacDecode.LibFlac.Interop
 			Callbacks.Error errorCallback, //not null
 			IntPtr clientData
 			);
+
+		/// <summary>
+		/// Initialize the decoder instance to decode native FLAC files
+		/// </summary>
+		/// <param name="decoder">An <B>uninitialized</B> decoder instance</param>
+		/// <param name="filename"></param>
+		/// <param name="writeCallback"></param>
+		/// <param name="metadataCallback"></param>
+		/// <param name="errorCallback"></param>
+		/// <param name="clientData"></param>
+		[DllImport(LibFlac, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FLAC__stream_decoder_init_file(
+			IntPtr decoder,
+			string filename,
+			Callbacks.Write writeCallback, // not null
+			Callbacks.Metadata metadataCallback, // can be  null
+			Callbacks.Error errorCallback, //not null
+			IntPtr clientData);
+
+		/// <summary>
+		/// Decode until the end of the stream. This version instructs the decoder to decode from the current position and continue until the end of stream (the read callback returns FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM), or until the callbacks return a fatal error.
+		/// &#13;&#13;
+		/// As the decoder needs more input it will call the read callback. As each metadata block and frame is decoded, the metadata or write callback will be called with the decoded metadata or frame.
+		/// </summary>
+		/// <param name="decoder">An initialized decoder instance. Not null.</param>
+		[DllImport(LibFlac, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FLAC__stream_decoder_process_until_end_of_stream(IntPtr decoder);
 	}
 
 	public unsafe class Callbacks
@@ -90,7 +117,7 @@ namespace FlacDecode.LibFlac.Interop
 		/// <param name="frame">The description of the decoded frame; DON'T RELY ON THIS DATA.</param>
 		/// <param name="buffer">An array of pointers to decoded channels of data. Each pointer will point to an array of signed samples of length frame->header.blocksize. Channels will be ordered according to the FLAC specification</param>
 		/// <param name="clientData">The callee's client data set through FLAC__stream_decoder_init_*().</param>
-		public delegate FlacWriteStatus Write(IntPtr decoder, FlacFrame frame, Int32[][] buffer, IntPtr clientData);
+		public delegate FlacWriteStatus Write(IntPtr decoder, IntPtr frame, IntPtr buffer, IntPtr clientData);
 
 		/// <summary>
 		/// called when the decoder has decoded a metadata block. In a valid FLAC file there will always be one STREAMINFO block, followed by zero or more other metadata blocks. These will be supplied by the decoder in the same order as they appear in the stream and always before the first audio frame (i.e. write callback). The metadata block that is passed in must not be modified, and it doesn't live beyond the callback, so you should make a copy of it with FLAC__metadata_object_clone() if you will need it elsewhere. Since metadata blocks can potentially be large, by default the decoder only calls the metadata callback for the STREAMINFO block; you can instruct the decoder to pass or filter other blocks with FLAC__stream_decoder_set_metadata_*() calls.
