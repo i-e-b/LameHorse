@@ -175,7 +175,7 @@ namespace FlacDecode.LibFlac.Interop
 		}
 	}
 
-	public enum FlacChannelAssignment
+	public enum FlacChannelAssignment : uint
 	{
 		FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT = 0,
 		FLAC__CHANNEL_ASSIGNMENT_LEFT_SIDE = 1,
