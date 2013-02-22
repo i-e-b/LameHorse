@@ -29,8 +29,8 @@ namespace FileTranscoder
 
 		public static void FlacToWav_ForceLibFlac(string sourceFlac, string targetNewWav)
 		{
-			var decoder = new LibFlacDecode();
-			decoder.DecodeFlacToWav(sourceFlac, targetNewWav);
+			var decoder = new LibFlacDecode(sourceFlac, targetNewWav);
+			decoder.DecodeFlacToWav();
 		}
 	}
 }

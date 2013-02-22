@@ -120,7 +120,7 @@ namespace FlacDecode.LibFlac.Interop
 		/// <param name="frame">The description of the decoded frame</param>
 		/// <param name="buffer">An array of pointers to decoded channels of data. Each pointer will point to an array of signed samples of length frame->header.blocksize. Channels will be ordered according to the FLAC specification</param>
 		/// <param name="clientData">The callee's client data set through FLAC__stream_decoder_init_*().</param>
-		public delegate FlacWriteStatus Write(IntPtr decoder, FrameHeader *frame, Int32** buffer, IntPtr clientData);
+		public delegate FlacWriteStatus Write(IntPtr decoder, FrameHeader *frame, IntPtr buffer, IntPtr clientData);
 
 		/// <summary>
 		/// called when the decoder has decoded a metadata block. In a valid FLAC file there will always be one STREAMINFO block, followed by zero or more other metadata blocks. These will be supplied by the decoder in the same order as they appear in the stream and always before the first audio frame (i.e. write callback). The metadata block that is passed in must not be modified, and it doesn't live beyond the callback, so you should make a copy of it with FLAC__metadata_object_clone() if you will need it elsewhere. Since metadata blocks can potentially be large, by default the decoder only calls the metadata callback for the STREAMINFO block; you can instruct the decoder to pass or filter other blocks with FLAC__stream_decoder_set_metadata_*() calls.
@@ -128,7 +128,7 @@ namespace FlacDecode.LibFlac.Interop
 		/// <param name="decoder">The decoder instance calling the callback. In general, FLAC__StreamDecoder functions which change the state should not be called on the decoder while in the callback.</param>
 		/// <param name="metadata">The decoded metadata block</param>
 		/// <param name="clientData">The callee's client data set through FLAC__stream_decoder_init_*().</param>
-		public delegate void Metadata(IntPtr decoder, IntPtr metadata, IntPtr clientData);
+		public delegate void Metadata(IntPtr decoder, ref FlacMetadataHeader metadata, IntPtr clientData);
 
 		public delegate void Error(IntPtr decoder, FlacErrorStatus status, IntPtr clientData);
 
@@ -173,6 +173,45 @@ namespace FlacDecode.LibFlac.Interop
 			FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE,
 			FLAC__STREAM_DECODER_WRITE_STATUS_ABORT
 		}
+	}
+
+	public struct FlacMetadataHeader
+	{
+		/// <summary>
+		/// Only type of Stream Info is supported!
+		/// </summary>
+		public FlacMetadataType Type;
+		[MarshalAs(UnmanagedType.Bool)] public bool isLast;
+		public UInt32 length;
+		public FlacStreamInfo streamInfo;
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct FlacStreamInfo
+	{
+		public UInt32 MinBlockSize;
+		public UInt32 MaxBlockSize;
+		public UInt32 MinFrameSize;
+		public UInt32 MaxFrameSize;
+
+		public UInt32 SampleRate;
+		public UInt32 Channels;
+		public UInt32 BitsPerSample;
+
+		public UInt64 TotalSamples;
+		//[MarshalAs(UnmanagedType.ByValArray, SizeConst=16)] public byte *md5Sum;
+	}
+
+	public enum FlacMetadataType
+	{
+		FLAC__METADATA_TYPE_STREAMINFO = 0,
+		FLAC__METADATA_TYPE_PADDING = 1,
+		FLAC__METADATA_TYPE_APPLICATION = 2,
+		FLAC__METADATA_TYPE_SEEKTABLE = 3,
+		FLAC__METADATA_TYPE_VORBIS_COMMENT = 4,
+		FLAC__METADATA_TYPE_CUESHEET = 5,
+		FLAC__METADATA_TYPE_PICTURE = 6,
+		FLAC__METADATA_TYPE_UNDEFINED = 7
 	}
 
 	public enum FlacChannelAssignment : uint
