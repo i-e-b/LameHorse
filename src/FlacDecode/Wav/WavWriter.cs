@@ -18,6 +18,13 @@ namespace FlacDecode
         {
             _fs.Write(data, offset, count);
         }
+		
+
+	    public void WriteSample(short sample)
+	    {
+			_fs.WriteByte((byte)(sample&0x00FF));
+			_fs.WriteByte((byte)((sample&0xFF00)>>8));
+	    }
 
 		static readonly byte[] RiffHeader = new byte[] { 0x52, 0x49, 0x46, 0x46 };
 		static readonly byte[] FormatWave = new byte[] { 0x57, 0x41, 0x56, 0x45 };

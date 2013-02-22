@@ -99,31 +99,96 @@ namespace FlacDecode.LibFlac
 			var f = *frame;
 
 			Console.WriteLine("Asked to write " + f.blockSize + " samples of " + f.channels + " channels, " + f.sample_rate + " ss; " + f.bitsPerSample + " bps");
-			Console.WriteLine("Channel is "+f.channelAssignment.ToString());
+			Console.WriteLine("Channel is " + f.channelAssignment.ToString());
 
-			var bufferSize = (int)((f.bitsPerSample*f.channels*f.blockSize) / 8);
-			var channelSize = (int)(bufferSize / f.channels);
-			var buf = new byte[bufferSize];
 
-			var channel_A = (IntPtr)Marshal.PtrToStructure(buffer, typeof(IntPtr));
-			Marshal.Copy(channel_A, buf, 0, channelSize);
-			
-			var channel_B = (IntPtr)Marshal.PtrToStructure(buffer + IntPtr.Size, typeof(IntPtr));
-			Marshal.Copy(channel_B, buf, channelSize, channelSize);
+			if (f.channels == 1)
+			{
+				var bufferSize = (int)((f.bitsPerSample * f.channels * f.blockSize) / 8);
+				var buf = new byte[bufferSize];
+				var channel_A = (IntPtr)Marshal.PtrToStructure(buffer, typeof(IntPtr));
+				Marshal.Copy(channel_A, buf, 0, bufferSize);
 
-			if (f.channels == 1) _writer.WriteSamples(buf, 0, bufferSize);
+				_writer.WriteSamples(buf, 0, bufferSize);
+			}
 			else if (f.channels > 2) throw new Exception("Wav does not support more than 2 channels");
 			else
 			{
-				var mp = bufferSize / 2;
-				for (int i = 0; i < mp; i+=2)
+				var sampleCount = (int)(f.blockSize);
+
+				var channel_A_Ptr = (IntPtr)Marshal.PtrToStructure(buffer, typeof(IntPtr));
+				var channel_A = new int[sampleCount];
+				Marshal.Copy(channel_A_Ptr, channel_A, 0, sampleCount);
+				//SwapOrder(channel_A);
+
+				var channel_B_Ptr = (IntPtr)Marshal.PtrToStructure(buffer + IntPtr.Size, typeof(IntPtr));
+				var channel_B = new int[sampleCount];
+				Marshal.Copy(channel_B_Ptr, channel_B, 0, sampleCount);
+				//SwapOrder(channel_B);
+
+				for (int i = 0; i < sampleCount; i++)
 				{
-					_writer.WriteSamples(buf, i, 2);
-					_writer.WriteSamples(buf, i + mp, 2);
+					var A = channel_A[i];
+					var B = channel_B[i];
+					if (f.channelAssignment == FlacChannelAssignment.FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT)
+					{
+						_writer.WriteSample((short)A);
+						_writer.WriteSample((short)B);
+					}
+					else if (f.channelAssignment == FlacChannelAssignment.FLAC__CHANNEL_ASSIGNMENT_MID_SIDE)
+					{
+						var b = B / 2;
+
+						_writer.WriteSample((short)(A + b));
+						_writer.WriteSample((short)(A - b));
+					}
+					else
+					{
+						_writer.WriteSample(0);
+						_writer.WriteSample(0);
+					}
 				}
 			}
 
 			return Callbacks.FlacWriteStatus.FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
+		}
+
+		public static unsafe void SwapOrder(short[] data)
+		{
+			int cnt = data.Length;
+			fixed (short* d = data)
+			{
+				byte* p = (byte*)d;
+				while (cnt-- > 0)
+				{
+					byte a = *p;
+					p++;
+					byte b = *p;
+					*(p - 1) = a;
+					*(p - 2) = b;
+				}
+			}
+		}
+		public static unsafe void SwapOrder(int[] data)
+		{
+			int cnt = data.Length;
+			fixed (int* d = data)
+			{
+				byte* p = (byte*)d;
+				while (cnt-- > 0)
+				{
+					byte a = *p;
+					p++;
+					byte b = *p;
+					*p = *(p + 1);
+					p++;
+					*p = b;
+					p++;
+					*(p - 3) = *p;
+					*p = a;
+					p++;
+				}
+			}
 		}
 	}
 }

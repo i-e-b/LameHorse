@@ -60,6 +60,9 @@
     <None Include="res\dtmf.flac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="res\dtmf_R.flac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FileTranscoder\FileTranscoder.csproj">
