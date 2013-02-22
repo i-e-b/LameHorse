@@ -97,14 +97,31 @@ namespace FlacDecode.LibFlac
 			}
 			if (frame == null) return Callbacks.FlacWriteStatus.FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 			var f = *frame;
+
 			Console.WriteLine("Asked to write " + f.blockSize + " samples of " + f.channels + " channels, " + f.sample_rate + " ss; " + f.bitsPerSample + " bps");
+			Console.WriteLine("Channel is "+f.channelAssignment.ToString());
 
 			var bufferSize = (int)((f.bitsPerSample*f.channels*f.blockSize) / 8);
+			var channelSize = (int)(bufferSize / f.channels);
 			var buf = new byte[bufferSize];
 
-			Marshal.Copy(buffer, buf, 0, bufferSize);
+			var channel_A = (IntPtr)Marshal.PtrToStructure(buffer, typeof(IntPtr));
+			Marshal.Copy(channel_A, buf, 0, channelSize);
+			
+			var channel_B = (IntPtr)Marshal.PtrToStructure(buffer + IntPtr.Size, typeof(IntPtr));
+			Marshal.Copy(channel_B, buf, channelSize, channelSize);
 
-			_writer.WriteSamples(buf, 0, bufferSize);
+			if (f.channels == 1) _writer.WriteSamples(buf, 0, bufferSize);
+			else if (f.channels > 2) throw new Exception("Wav does not support more than 2 channels");
+			else
+			{
+				var mp = bufferSize / 2;
+				for (int i = 0; i < mp; i+=2)
+				{
+					_writer.WriteSamples(buf, i, 2);
+					_writer.WriteSamples(buf, i + mp, 2);
+				}
+			}
 
 			return Callbacks.FlacWriteStatus.FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 		}

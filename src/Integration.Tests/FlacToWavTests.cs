@@ -18,6 +18,7 @@ namespace Integration.Tests
             Decode.FlacToWav(@in, @out);
 
             Assert.That(File.Exists(@out));
+			Assert.That(new FileInfo(@out).Length, Is.EqualTo(882044));
         }
 
      
@@ -32,7 +33,7 @@ namespace Integration.Tests
             Decode.FlacToWav_ForceLibFlac(@in, @out);
 
             Assert.That(File.Exists(@out));
-			Assert.That(new FileInfo(@out).Length, Is.GreaterThanOrEqualTo(882000));
+			Assert.That(new FileInfo(@out).Length, Is.EqualTo(882044));
         }
     }
 }
