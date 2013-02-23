@@ -25,7 +25,7 @@ namespace Integration.Tests
         [Test]
         public void can_transcode_to_wav_using_lib_flac ()
         {
-			string @in = @"./res/dtmf_R.flac";
+			string @in = @"./res/dtmf.flac";
             string @out = @"./res/dtmf_out_libflac.wav";
 			
 			File.Delete(@out);

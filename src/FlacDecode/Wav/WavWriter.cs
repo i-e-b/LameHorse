@@ -19,7 +19,6 @@ namespace FlacDecode
             _fs.Write(data, offset, count);
         }
 		
-
 	    public void WriteSample(short sample)
 	    {
 			_fs.WriteByte((byte)(sample&0x00FF));

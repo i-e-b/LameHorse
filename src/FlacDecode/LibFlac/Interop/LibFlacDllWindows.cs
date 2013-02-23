@@ -8,13 +8,6 @@ namespace FlacDecode.LibFlac.Interop
 	{
 		const string LibFlac = "libFLAC_x64.dll";
 
-
-		/*
-		// const char* CDECL get_lame_version(void);
-		[DllImport("libmp3lame.dll", CallingConvention = CallingConvention.Cdecl)]
-		public static extern IntPtr get_lame_version();*/
-		//  [return: MarshalAs(UnmanagedType.Bool)]
-
 		[DllImport(LibFlac, CallingConvention = CallingConvention.Cdecl)]
 		public static extern IntPtr FLAC__stream_decoder_new();
 
@@ -43,12 +36,6 @@ namespace FlacDecode.LibFlac.Interop
 		/// <summary>
 		/// Initialize the decoder instance to decode native FLAC files
 		/// </summary>
-		/// <param name="decoder">An <B>uninitialized</B> decoder instance</param>
-		/// <param name="filename"></param>
-		/// <param name="writeCallback"></param>
-		/// <param name="metadataCallback"></param>
-		/// <param name="errorCallback"></param>
-		/// <param name="clientData"></param>
 		[DllImport(LibFlac, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FLAC__stream_decoder_init_file(
 			IntPtr decoder,

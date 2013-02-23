@@ -78,9 +78,6 @@ namespace FlacDecode.LibFlac
 
 			_writer = new WavWriter(_wavFilePath, (uint)estimatedFileSize,
 				(int)metadata.streamInfo.Channels, (int)metadata.streamInfo.SampleRate);
-
-			//Console.WriteLine("Metadata "+metadata.Type.ToString()+", "+metadata.streamInfo.TotalSamples+ " total samples");
-			//Console.WriteLine("expecting total filesize of "+estimatedFileSize+" bytes");
 		}
 
 		void ErrorCallback(IntPtr decoder, Callbacks.FlacErrorStatus status, IntPtr clientdata)
@@ -97,9 +94,6 @@ namespace FlacDecode.LibFlac
 			}
 			if (frame == null) return Callbacks.FlacWriteStatus.FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 			var f = *frame;
-
-			Console.WriteLine("Asked to write " + f.blockSize + " samples of " + f.channels + " channels, " + f.sample_rate + " ss; " + f.bitsPerSample + " bps");
-			Console.WriteLine("Channel is " + f.channelAssignment.ToString());
 
 
 			if (f.channels == 1)
@@ -119,34 +113,18 @@ namespace FlacDecode.LibFlac
 				var channel_A_Ptr = (IntPtr)Marshal.PtrToStructure(buffer, typeof(IntPtr));
 				var channel_A = new int[sampleCount];
 				Marshal.Copy(channel_A_Ptr, channel_A, 0, sampleCount);
-				//SwapOrder(channel_A);
 
 				var channel_B_Ptr = (IntPtr)Marshal.PtrToStructure(buffer + IntPtr.Size, typeof(IntPtr));
 				var channel_B = new int[sampleCount];
 				Marshal.Copy(channel_B_Ptr, channel_B, 0, sampleCount);
-				//SwapOrder(channel_B);
 
 				for (int i = 0; i < sampleCount; i++)
 				{
 					var A = channel_A[i];
 					var B = channel_B[i];
-					if (f.channelAssignment == FlacChannelAssignment.FLAC__CHANNEL_ASSIGNMENT_INDEPENDENT)
-					{
-						_writer.WriteSample((short)A);
-						_writer.WriteSample((short)B);
-					}
-					else if (f.channelAssignment == FlacChannelAssignment.FLAC__CHANNEL_ASSIGNMENT_MID_SIDE)
-					{
-						var b = B / 2;
 
-						_writer.WriteSample((short)(A + b));
-						_writer.WriteSample((short)(A - b));
-					}
-					else
-					{
-						_writer.WriteSample(0);
-						_writer.WriteSample(0);
-					}
+					_writer.WriteSample((short)A);
+					_writer.WriteSample((short)B);
 				}
 			}
 
