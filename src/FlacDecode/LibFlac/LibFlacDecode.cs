@@ -130,43 +130,5 @@ namespace FlacDecode.LibFlac
 
 			return Callbacks.FlacWriteStatus.FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 		}
-
-		public static unsafe void SwapOrder(short[] data)
-		{
-			int cnt = data.Length;
-			fixed (short* d = data)
-			{
-				byte* p = (byte*)d;
-				while (cnt-- > 0)
-				{
-					byte a = *p;
-					p++;
-					byte b = *p;
-					*(p - 1) = a;
-					*(p - 2) = b;
-				}
-			}
-		}
-		public static unsafe void SwapOrder(int[] data)
-		{
-			int cnt = data.Length;
-			fixed (int* d = data)
-			{
-				byte* p = (byte*)d;
-				while (cnt-- > 0)
-				{
-					byte a = *p;
-					p++;
-					byte b = *p;
-					*p = *(p + 1);
-					p++;
-					*p = b;
-					p++;
-					*(p - 3) = *p;
-					*p = a;
-					p++;
-				}
-			}
-		}
 	}
 }
