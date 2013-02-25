@@ -6,31 +6,39 @@ namespace FileTranscoder
 {
 	public static class Decode
 	{
-		public static void FlacToWav(string sourceFlac, string targetNewWav)
+		public static class Using
 		{
-			using (var reader = new FlakeReader(sourceFlac))
+			public static void Flake(string sourceFlac, string targetNewWav)
 			{
-				var expectedBytes = (reader.Length * reader.PCM.BitsPerSample * reader.PCM.ChannelCount) / 8;
-
-				if (expectedBytes > uint.MaxValue) throw new Exception("Too many samples for a wav");
-
-				var buf = new AudioBuffer(reader, 4096);
-
-				using (var wav = new WavWriter(targetNewWav, (uint)expectedBytes, reader.PCM.ChannelCount, reader.PCM.SampleRate))
+				using (var reader = new FlakeReader(sourceFlac))
 				{
-					while (reader.Read(buf, 4096) > 0)
+					var expectedBytes = (reader.Length * reader.PCM.BitsPerSample * reader.PCM.ChannelCount) / 8;
+
+					if (expectedBytes > uint.MaxValue) throw new Exception("Too many samples for a wav");
+
+					var buf = new AudioBuffer(reader, 4096);
+
+					using (var wav = new WavWriter(targetNewWav, (uint)expectedBytes, reader.PCM.ChannelCount, reader.PCM.SampleRate))
 					{
-						wav.WriteSamples(buf.Bytes, 0, buf.ByteLength);
+						while (reader.Read(buf, 4096) > 0)
+						{
+							wav.WriteSamples(buf.Bytes, 0, buf.ByteLength);
+						}
+						wav.FlushAndClose();
 					}
-					wav.FlushAndClose();
 				}
+			}
+
+			public static void LibFlac(string sourceFlac, string targetNewWav)
+			{
+				var decoder = new LibFlacDecode(sourceFlac, targetNewWav);
+				decoder.DecodeFlacToWav();
 			}
 		}
 
-		public static void FlacToWav_ForceLibFlac(string sourceFlac, string targetNewWav)
+		public static void FlacToWav(string sourceFlac, string targetNewWav)
 		{
-			var decoder = new LibFlacDecode(sourceFlac, targetNewWav);
-			decoder.DecodeFlacToWav();
+			Using.LibFlac(sourceFlac, targetNewWav);
 		}
 	}
 }

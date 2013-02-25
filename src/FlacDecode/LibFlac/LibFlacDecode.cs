@@ -98,12 +98,16 @@ namespace FlacDecode.LibFlac
 
 			if (f.channels == 1)
 			{
-				var bufferSize = (int)((f.bitsPerSample * f.channels * f.blockSize) / 8);
-				var buf = new byte[bufferSize];
-				var channel_A = (IntPtr)Marshal.PtrToStructure(buffer, typeof(IntPtr));
-				Marshal.Copy(channel_A, buf, 0, bufferSize);
+				var sampleCount = (int)(f.blockSize);
 
-				_writer.WriteSamples(buf, 0, bufferSize);
+				var channel_A_Ptr = (IntPtr)Marshal.PtrToStructure(buffer, typeof(IntPtr));
+				var channel_A = new int[sampleCount];
+				Marshal.Copy(channel_A_Ptr, channel_A, 0, sampleCount);
+
+				for (int i = 0; i < sampleCount; i++)
+				{
+					_writer.WriteSample((short)channel_A[i]);
+				}
 			}
 			else if (f.channels > 2) throw new Exception("Wav does not support more than 2 channels");
 			else

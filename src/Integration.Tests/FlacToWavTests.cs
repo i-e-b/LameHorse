@@ -4,36 +4,36 @@ using NUnit.Framework;
 
 namespace Integration.Tests
 {
- [TestFixture]
-    public class FlacToWavTests
-    {
-        [Test]
-        public void can_transcode_to_wav ()
-        {
+	[TestFixture]
+	public class FlacToWavTests
+	{
+		[Test]
+		public void can_transcode_to_wav_using_flake()
+		{
 			string @in = @"./res/dtmf.flac";
-            string @out = @"./res/dtmf_out_flake.wav";
-			
+			string @out = @"./res/dtmf_out_flake.wav";
+
 			File.Delete(@out);
 
-            Decode.FlacToWav(@in, @out);
+			Decode.Using.Flake(@in, @out);
 
-            Assert.That(File.Exists(@out));
+			Assert.That(File.Exists(@out));
 			Assert.That(new FileInfo(@out).Length, Is.EqualTo(882044));
-        }
+		}
 
-     
-        [Test]
-        public void can_transcode_to_wav_using_lib_flac ()
-        {
+
+		[Test]
+		public void can_transcode_to_wav_using_lib_flac()
+		{
 			string @in = @"./res/dtmf.flac";
-            string @out = @"./res/dtmf_out_libflac.wav";
-			
+			string @out = @"./res/dtmf_out_libflac.wav";
+
 			File.Delete(@out);
 
-            Decode.FlacToWav_ForceLibFlac(@in, @out);
+			Decode.Using.LibFlac(@in, @out);
 
-            Assert.That(File.Exists(@out));
+			Assert.That(File.Exists(@out));
 			Assert.That(new FileInfo(@out).Length, Is.EqualTo(882044));
-        }
-    }
+		}
+	}
 }
