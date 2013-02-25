@@ -2,27 +2,25 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using FlacDecode.LibFlac.Interop;
-using Interfaces;
-using dll = FlacDecode.LibFlac.Interop.LibFlacDllWindows;
 
 namespace FlacDecode.LibFlac
 {
-	public class LibFlacDecode
+	public unsafe class LibFlacDecode
 	{
 		readonly string _flacFilePath;
 		readonly string _wavFilePath;
 		object _swapToken = new Object();
 		WavWriter _writer;
-		static bool posix;
+		readonly LibFlacInterface _libFlac;
 
 		public LibFlacDecode(string flacFilePath, string wavFilePath)
 		{
 			_flacFilePath = flacFilePath;
 			_wavFilePath = wavFilePath;
-			posix = AddLocalPathForLinuxLibrarySearch.Setup();
+			_libFlac = new LibFlacInterface();
 		}
 
-		public unsafe void DecodeFlacToWav()
+		public void DecodeFlacToWav()
 		{
 			var token = Interlocked.Exchange(ref _swapToken, null);
 			if (token == null) throw new Exception("Only one decode can be at once per instance");
@@ -30,7 +28,7 @@ namespace FlacDecode.LibFlac
 			IntPtr streamDecoder;
 			try
 			{
-				streamDecoder = dll.FLAC__stream_decoder_new();
+				streamDecoder = _libFlac.FLAC__stream_decoder_new();
 				if (streamDecoder == IntPtr.Zero) throw new OutOfMemoryException("Could not allocate lib flac stream decoder");
 			}
 			finally
@@ -43,16 +41,16 @@ namespace FlacDecode.LibFlac
 			Callbacks.Metadata metadataCallback = MetadataCallback;
 			try
 			{
-				dll.FLAC__stream_decoder_init_file(streamDecoder, _flacFilePath, writeCallback, metadataCallback, errorCallback, IntPtr.Zero);
-				dll.FLAC__stream_decoder_process_until_end_of_stream(streamDecoder);
+				_libFlac.FLAC__stream_decoder_init_file(streamDecoder, _flacFilePath, writeCallback, metadataCallback, errorCallback, IntPtr.Zero);
+				_libFlac.FLAC__stream_decoder_process_until_end_of_stream(streamDecoder);
 			}
 			finally
 			{
 				GC.KeepAlive(errorCallback);
 				GC.KeepAlive(writeCallback);
 				GC.KeepAlive(metadataCallback);
-				dll.FLAC__stream_decoder_finish(streamDecoder);
-				dll.FLAC__stream_decoder_delete(streamDecoder);
+				_libFlac.FLAC__stream_decoder_finish(streamDecoder);
+				_libFlac.FLAC__stream_decoder_delete(streamDecoder);
 				_swapToken = token;
 				if (_writer != null)
 				{
@@ -88,7 +86,7 @@ namespace FlacDecode.LibFlac
 			throw new Exception("Decoding error " + status.ToString());
 		}
 
-		unsafe Callbacks.FlacWriteStatus WriteCallback(IntPtr d, FrameHeader* frame, IntPtr buffer, IntPtr c)
+		Callbacks.FlacWriteStatus WriteCallback(IntPtr d, FrameHeader* frame, IntPtr buffer, IntPtr c)
 		{
 			if (_writer == null)
 			{

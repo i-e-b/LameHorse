@@ -49,6 +49,13 @@
     <Compile Include="Flac\FlacSubframeInfo.cs" />
     <Compile Include="Flac\Flake.cs" />
     <Compile Include="Flac\FlakeReader.cs" />
+    <Compile Include="LibFlac\Interop\Callbacks.cs" />
+    <Compile Include="LibFlac\Interop\FlacChannelAssignment.cs" />
+    <Compile Include="LibFlac\Interop\FlacMetadataHeader.cs" />
+    <Compile Include="LibFlac\Interop\FlacMetadataType.cs" />
+    <Compile Include="LibFlac\Interop\FlacStreamInfo.cs" />
+    <Compile Include="LibFlac\Interop\FrameHeader.cs" />
+    <Compile Include="LibFlac\Interop\LibFlacInterface.cs" />
     <Compile Include="LibFlac\Interop\LibFlacSoLinux.cs" />
     <Compile Include="LibFlac\Interop\LibFlacDllWindows.cs" />
     <Compile Include="LibFlac\LibFlacDecode.cs" />
