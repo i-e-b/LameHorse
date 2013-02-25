@@ -6,6 +6,12 @@ namespace FileTranscoder
 {
 	public static class Decode
 	{
+
+		public static void FlacToWav(string sourceFlac, string targetNewWav)
+		{
+			Using.LibFlac(sourceFlac, targetNewWav);
+		}
+
 		public static class Using
 		{
 			public static void Flake(string sourceFlac, string targetNewWav)
@@ -34,11 +40,6 @@ namespace FileTranscoder
 				var decoder = new LibFlacDecode(sourceFlac, targetNewWav);
 				decoder.DecodeFlacToWav();
 			}
-		}
-
-		public static void FlacToWav(string sourceFlac, string targetNewWav)
-		{
-			Using.LibFlac(sourceFlac, targetNewWav);
 		}
 	}
 }

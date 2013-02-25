@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,11 +34,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Decode.cs" />
@@ -63,11 +59,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\lib\libFLAC_x64.dll">
+      <Link>libFLAC_x64.dll</Link>
+    </Content>
     <Content Include="..\..\lib\libmp3lame.dll">
       <Link>libmp3lame.dll</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\lib\libFLAC.so.8.2.0">
+      <Link>libFLAC.so.8.2.0</Link>
+    </None>
     <None Include="..\..\lib\libmp3lame.so.0">
       <Link>libmp3lame.so.0</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using FlacDecode.LibFlac.Interop;
+using Interfaces;
 using dll = FlacDecode.LibFlac.Interop.LibFlacDllWindows;
 
 namespace FlacDecode.LibFlac
@@ -12,11 +13,13 @@ namespace FlacDecode.LibFlac
 		readonly string _wavFilePath;
 		object _swapToken = new Object();
 		WavWriter _writer;
+		static bool posix;
 
 		public LibFlacDecode(string flacFilePath, string wavFilePath)
 		{
 			_flacFilePath = flacFilePath;
 			_wavFilePath = wavFilePath;
+			posix = AddLocalPathForLinuxLibrarySearch.Setup();
 		}
 
 		public unsafe void DecodeFlacToWav()
@@ -80,9 +83,9 @@ namespace FlacDecode.LibFlac
 				(int)metadata.streamInfo.Channels, (int)metadata.streamInfo.SampleRate);
 		}
 
-		void ErrorCallback(IntPtr decoder, Callbacks.FlacErrorStatus status, IntPtr clientdata)
+		static void ErrorCallback(IntPtr decoder, Callbacks.FlacErrorStatus status, IntPtr clientdata)
 		{
-			Console.WriteLine("Decoding error");
+			throw new Exception("Decoding error " + status.ToString());
 		}
 
 		unsafe Callbacks.FlacWriteStatus WriteCallback(IntPtr d, FrameHeader* frame, IntPtr buffer, IntPtr c)

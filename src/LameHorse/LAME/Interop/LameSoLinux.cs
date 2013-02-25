@@ -1,65 +1,10 @@
 using System;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.IO;
 
 namespace LameHorse.LAME.Interop
 {
 	public class LameSoLinux
 	{
-        /// <summary>
-        /// You MUST call this if the shared lib is not in the normal execution path
-        /// </summary>
-		public static void Setup()
-		{
-			var path = "";
-            path += "/usr/lib"; // for debian.
-
-			try
-			{
-				path += Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-				path += ";";
-			}
-			catch
-			{
-				Console.WriteLine("Adding Executing assembly path failed");
-			}
-
-			try
-			{
-				path += Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
-				path += ";";
-			}
-			catch
-			{
-				Console.WriteLine("Adding Calling assembly path failed");
-			}
-
-			try
-			{
-				path += Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-			}
-			catch
-			{
-				Console.WriteLine("Adding Executing assembly path failed");
-			}
-            try
-            {
-				var oldPath = Environment.GetEnvironmentVariable("PATH");
-				if (!string.IsNullOrEmpty(oldPath)) oldPath += ";";
-                oldPath += path;
-	            Environment.SetEnvironmentVariable("PATH", oldPath, EnvironmentVariableTarget.Process);
-
-                
-				var oldLD = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
-				if (!string.IsNullOrEmpty(oldLD)) oldLD += ";";
-                oldLD += path;
-	            Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", oldLD, EnvironmentVariableTarget.Process);
-            } catch
-            {
-	            Console.WriteLine("Failed to set PATH variable: LAME library may not be found");
-            }
-		}
 
 		// const char* CDECL get_lame_version(void);
 		[DllImport("libmp3lame.so.0.0.0", CallingConvention = CallingConvention.Cdecl)]

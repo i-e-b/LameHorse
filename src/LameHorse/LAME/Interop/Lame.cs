@@ -1,5 +1,5 @@
 using System;
-using System.Runtime.InteropServices;
+using Interfaces;
 
 namespace LameHorse.LAME.Interop
 {
@@ -9,13 +9,7 @@ namespace LameHorse.LAME.Interop
 
 		public static void Init()
 		{
-			var p = (int)Environment.OSVersion.Platform;
-			posix = (p == 4) || (p == 6) || (p == 128);
-
-			if (posix)
-			{
-				LameSoLinux.Setup();
-			}
+			posix = AddLocalPathForLinuxLibrarySearch.Setup();
 		}
 
 		public static IntPtr get_lame_version()

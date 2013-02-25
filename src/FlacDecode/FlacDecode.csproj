@@ -49,6 +49,7 @@
     <Compile Include="Flac\FlacSubframeInfo.cs" />
     <Compile Include="Flac\Flake.cs" />
     <Compile Include="Flac\FlakeReader.cs" />
+    <Compile Include="LibFlac\Interop\LibFlacSoLinux.cs" />
     <Compile Include="LibFlac\Interop\LibFlacDllWindows.cs" />
     <Compile Include="LibFlac\LibFlacDecode.cs" />
     <Compile Include="MathCoding\LinearPredictiveCoding.cs" />
@@ -59,6 +60,12 @@
     <Compile Include="Flac\SeekPoint.cs" />
     <Compile Include="Flac\SubframeType.cs" />
     <Compile Include="Wav\WavWriter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{5C8235B6-DA81-40CC-8BC4-77FE3C932E7D}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

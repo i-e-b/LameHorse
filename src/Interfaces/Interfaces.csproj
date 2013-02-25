@@ -34,6 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddLocalPathForLinuxLibrarySearch.cs" />
     <Compile Include="IPCMAudio.cs" />
     <Compile Include="IReadPCM.cs" />
     <Compile Include="IWritePCM.cs" />
