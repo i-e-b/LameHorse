@@ -1,7 +1,7 @@
 ﻿using System;
 using Interfaces;
 using win = FlacDecode.LibFlac.Interop.LibFlacDllWindows;
-using nix = FlacDecode.LibFlac.Interop.LibFlacDllWindows;
+using nix = FlacDecode.LibFlac.Interop.LibFlacSoLinux;
 
 namespace FlacDecode.LibFlac.Interop
 {
