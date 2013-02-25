@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace Interfaces
+namespace FlacDecode.LibFlac.Interop
 {
 	public class AddLocalPathForLinuxLibrarySearch
 	{

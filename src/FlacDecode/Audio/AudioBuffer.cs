@@ -1,7 +1,7 @@
 ﻿using System;
-using FlacDecode.Audio;
+using FlacDecode.Flac;
 
-namespace FlacDecode
+namespace FlacDecode.Audio
 {
 	public class AudioBuffer
 	{

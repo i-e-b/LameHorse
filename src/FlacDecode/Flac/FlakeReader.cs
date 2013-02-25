@@ -24,10 +24,9 @@ using System.IO;
 using System.Threading;
 using FlacDecode.Audio;
 using FlacDecode.Bitwise;
-using FlacDecode.Flac;
 using FlacDecode.MathCoding;
 
-namespace FlacDecode
+namespace FlacDecode.Flac
 {
 	public class FlakeReader : IDisposable
 	{

@@ -1,6 +1,9 @@
 ﻿using System;
 using FlacDecode;
+using FlacDecode.Audio;
+using FlacDecode.Flac;
 using FlacDecode.LibFlac;
+using FlacDecode.Wav;
 
 namespace FileTranscoder
 {

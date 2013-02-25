@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 
-namespace FlacDecode
+namespace FlacDecode.Wav
 {
     public class WavWriter : IDisposable
     {

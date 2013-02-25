@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 using FlacDecode.LibFlac.Interop;
+using FlacDecode.Wav;
 
 namespace FlacDecode.LibFlac
 {
