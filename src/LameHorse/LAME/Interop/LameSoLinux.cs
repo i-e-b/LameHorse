@@ -5,7 +5,7 @@ namespace LameHorse.LAME.Interop
 {
 	public class LameSoLinux
 	{
-		const string LameLibrary = "libmp3lame.so.0";
+		const string LameLibrary = "libmp3lame.so.0.0.0";
 
 		// const char* CDECL get_lame_version(void);
 		[DllImport(LameLibrary, CallingConvention = CallingConvention.Cdecl)]
