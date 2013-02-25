@@ -83,6 +83,12 @@ namespace FlacDecode.LibFlac
 
 		static void ErrorCallback(IntPtr decoder, Callbacks.FlacErrorStatus status, IntPtr clientdata)
 		{
+			if (status == Callbacks.FlacErrorStatus.FLAC__STREAM_DECODER_ERROR_STATUS_LOST_SYNC
+				|| status == Callbacks.FlacErrorStatus.FLAC__STREAM_DECODER_ERROR_STATUS_FRAME_CRC_MISMATCH)
+			{
+				// Lots of poorly encoded but usable file fail with these errors
+				Console.WriteLine("Decoding warning " + status.ToString());
+			}
 			throw new Exception("Decoding error " + status.ToString());
 		}
 
