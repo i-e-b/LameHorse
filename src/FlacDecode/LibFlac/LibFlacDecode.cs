@@ -88,6 +88,7 @@ namespace FlacDecode.LibFlac
 			{
 				// Lots of poorly encoded but usable file fail with these errors
 				Console.WriteLine("Decoding warning " + status.ToString());
+				return;
 			}
 			throw new Exception("Decoding error " + status.ToString());
 		}
