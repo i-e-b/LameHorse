@@ -22,7 +22,7 @@ namespace FlacDecode.LibFlac.Interop
 			try
 			{
 				path += Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-				path += ";";
+				path += ":";
 			}
 			catch
 			{
@@ -32,7 +32,7 @@ namespace FlacDecode.LibFlac.Interop
 			try
 			{
 				path += Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
-				path += ";";
+				path += ":";
 			}
 			catch
 			{
@@ -51,13 +51,13 @@ namespace FlacDecode.LibFlac.Interop
 			try
 			{
 				var oldPath = Environment.GetEnvironmentVariable("PATH");
-				if (!string.IsNullOrEmpty(oldPath)) oldPath += ";";
+				if (!string.IsNullOrEmpty(oldPath)) oldPath += ":";
 				oldPath += path;
 				Environment.SetEnvironmentVariable("PATH", oldPath, EnvironmentVariableTarget.Process);
 
 
 				var oldLD = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
-				if (!string.IsNullOrEmpty(oldLD)) oldLD += ";";
+				if (!string.IsNullOrEmpty(oldLD)) oldLD += ":";
 				oldLD += path;
 				Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", oldLD, EnvironmentVariableTarget.Process);
 			}
