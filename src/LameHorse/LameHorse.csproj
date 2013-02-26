@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IWritePCM.cs" />
-    <Compile Include="LAME\Interop\AddLocalPathForLinuxLibrarySearch.cs" />
     <Compile Include="LAME\Interop\LameDllWindows.cs" />
     <Compile Include="LAME\Interop\LameSoLinux.cs" />
     <Compile Include="LAME\Interop\Lame.cs" />

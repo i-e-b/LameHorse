@@ -49,7 +49,6 @@
     <Compile Include="Flac\FlacSubframeInfo.cs" />
     <Compile Include="Flac\Flake.cs" />
     <Compile Include="Flac\FlakeReader.cs" />
-    <Compile Include="LibFlac\Interop\AddLocalPathForLinuxLibrarySearch.cs" />
     <Compile Include="LibFlac\Interop\Callbacks.cs" />
     <Compile Include="LibFlac\Interop\FlacChannelAssignment.cs" />
     <Compile Include="LibFlac\Interop\FlacMetadataHeader.cs" />
