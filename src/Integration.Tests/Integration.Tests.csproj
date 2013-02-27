@@ -49,12 +49,15 @@
   <ItemGroup>
     <None Include="..\..\lib\libFLAC.so.8.2.0">
       <Link>libFLAC.so.8.2.0</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\..\lib\libmp3lame.so.0">
       <Link>libmp3lame.so.0</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="..\..\lib\libmp3lame.so.0.0.0">
       <Link>libmp3lame.so.0.0.0</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="res\dtmf.flac">
