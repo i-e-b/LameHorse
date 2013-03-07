@@ -34,10 +34,12 @@ namespace Interfaces
 
 			try
 			{
-				var newPath = string.Join(":", pathElements.Where(e => e != "." && e != ""));
+				var newPath = string.Join(":", pathElements.Where(e => e != "." && e != "").Select(e => "\"" + e + "\""));
+				Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
 				Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Process);
 
-				var newLD = string.Join(":", ldElements.Where(e => e != "." && e != ""));
+				var newLD = string.Join(":", ldElements.Where(e => e != "." && e != "").Select(e => "\"" + e + "\""));
+				Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", newLD, EnvironmentVariableTarget.User);
 				Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", newLD, EnvironmentVariableTarget.Process);
 			}
 			catch
