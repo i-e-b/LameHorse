@@ -16,7 +16,6 @@ namespace Interfaces
 		{
 			var p = (int) Environment.OSVersion.Platform;
 			var posix = (p == 4) || (p == 6) || (p == 128);
-			if (!posix) return false;
 
 			var pathElements = new HashSet<string>();
 			var ldElements = new HashSet<string>();
@@ -25,8 +24,12 @@ namespace Interfaces
 
 			foreach (var item in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(':')) { pathElements.Add(item); }
 			foreach (var item in (Environment.GetEnvironmentVariable("LD_LIBRARY_PATH") ?? "").Split(':')) { ldElements.Add(item); }
-			
-			add("/usr/lib"); // for debian.
+
+			if (posix)
+			{
+				add("/usr/lib"); // for debian.
+				add(".");
+			}
 
 			add(ExecutingAssemblyPath());
 			add(CallingAssemblyPath());
@@ -34,19 +37,19 @@ namespace Interfaces
 
 			try
 			{
-				var newPath = string.Join(":", pathElements.Where(e => e != "." && e != "").Select(e => "\"" + e + "\""));
-				Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
+				var newPath = string.Join(":", pathElements.Where(e => e != "").Select(e => "\"" + e + "\""));
+				//Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
 				Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Process);
 
-				var newLD = string.Join(":", ldElements.Where(e => e != "." && e != "").Select(e => "\"" + e + "\""));
+				var newLD = string.Join(":", ldElements.Where(e => e != "").Select(e => "\"" + e + "\""));
 				Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", newLD, EnvironmentVariableTarget.User);
 				Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", newLD, EnvironmentVariableTarget.Process);
 			}
 			catch
 			{
-				Console.WriteLine("Failed to set PATH variable: LAME library may not be found");
+				Console.WriteLine("Failed to set PATH variable: libraries may not be found");
 			}
-			return true;
+			return posix;
 		}
 
 		static string EntryAssemblyPath()
