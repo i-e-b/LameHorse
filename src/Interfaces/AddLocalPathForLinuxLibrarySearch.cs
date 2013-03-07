@@ -35,14 +35,14 @@ namespace Interfaces
 			add(CallingAssemblyPath());
 			add(EntryAssemblyPath());
 
+			var join = (posix) ? ":" : ";";
+
 			try
 			{
-				var newPath = string.Join(":", pathElements.Where(e => e != "").Select(e => "\"" + e + "\""));
-				//Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.User);
+				var newPath = string.Join(join, pathElements.Where(e => e != "." && e != ""));
 				Environment.SetEnvironmentVariable("PATH", newPath, EnvironmentVariableTarget.Process);
 
-				var newLD = string.Join(":", ldElements.Where(e => e != "").Select(e => "\"" + e + "\""));
-				Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", newLD, EnvironmentVariableTarget.User);
+				var newLD = string.Join(join, ldElements.Where(e => e != "." && e != ""));
 				Environment.SetEnvironmentVariable("LD_LIBRARY_PATH", newLD, EnvironmentVariableTarget.Process);
 			}
 			catch
