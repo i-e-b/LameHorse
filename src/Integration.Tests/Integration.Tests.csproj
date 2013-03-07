@@ -59,6 +59,14 @@
       <Link>libmp3lame.so.0.0.0</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\lib\libogg.so.0">
+      <Link>libogg.so.0</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\lib\libogg.so.0.7.0">
+      <Link>libogg.so.0.7.0</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="res\dtmf.flac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
